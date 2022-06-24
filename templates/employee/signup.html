@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% block main %}
+<section>
+  <form method="post" actions="{% url 'App_Employee:signup'%}">
+    {% csrf_token %}
+    <div class="signupForm">
+      {%for message in messages %} {%if "signup_complete" in message.tags %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message}} </strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endif %} {% endfor %}
+      <div class="card shadow-lg p-4">
+        <h3 class="login-title">Signup Form</h3>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="Enter username"
+            name="username"
+            required
+          />
+          <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            name="password1"
+            placeholder="Password"
+            required
+          />
+          <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating my-2">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            name="password2"
+            placeholder="Password"
+            required
+          />
+          <label for="floatingPassword">Confirm Password</label>
+        </div>
+
+        <div class="my-2">
+          <a class="text-danger" href="">Register Now</a>
+        </div>
+        <div class="my-2">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+{% endblock main %}

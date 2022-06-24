@@ -1,0 +1,13 @@
+.loginForm{
+    max-width: 450px;
+    margin: 0 auto;
+    padding:200px 0;
+}
+.login-title{
+    font-weight: 700;
+}
+.signupForm{
+    max-width: 450px;
+    margin: 0 auto;
+    padding:100px 0;
+}
