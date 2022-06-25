@@ -14,3 +14,9 @@
 .error{
     color:red;
 }
+.pagination{
+    float: right;
+}
+.pagination>li{
+    cursor: pointer;
+}

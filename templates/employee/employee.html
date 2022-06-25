@@ -4,7 +4,7 @@
 {% endblock navbar %}
 {% block main %}
 <section>
-  <form class="my-2">
+  <form id="filterForm" class="my-2" method="post">{% csrf_token %}
     <div class="bg-success py-2 rounded-top">
       <h4 class="text-white mx-2">Filter Zone</h4>
     </div>
@@ -110,7 +110,8 @@
           </div>
       </div>
         <div class="col-md-12">
-            <button type="submit" class="btn btn-primary btn-sm my-2">Filter</buton>
+          <input type="hidden" name="PageNo" id="PageNo" value="{{pn}}"/>
+            <button id="filterBtn" type="submit" class="btn btn-primary btn-sm my-2">Filter</buton>
         </div>
       </div>
     </div>
@@ -123,11 +124,9 @@
     </div>
     <div class="col">
       <nav>
-        {{PageCount}}
-        {{pn}}
        <ul class="pagination">
         {% if pn > 1 %}
-            <li class="page-item"><a class="page-link" onclick="ChangePageNoValue()" >Previous</a></li>
+            <li class="page-item"><a class="page-link" onclick="ChangePageNoValue({{pn|add:"-1"}})" >Previous</a></li>
         {% endif %}
         
         {%  for i in range  %}
@@ -139,7 +138,7 @@
         {%  endfor %}
         
         {% if pn < PageCount %}
-            <li class="page-item"><a class="page-link"  onclick="ChangePageNoValue()">Next</a></li>
+            <li class="page-item"><a class="page-link"  onclick="ChangePageNoValue({{pn|add:"1"}})">Next</a></li>
         {% endif %}
         
     </ul>
@@ -169,7 +168,7 @@
     <tbody>
       {% for emp in all_employees %}
       <tr>
-        <th scope="row">{{forloop.counter}} {{emp.id}}</th>
+        <th scope="row">{{forloop.counter}}</th>
         <td>{{emp.1}} {{emp.2}}</td>
         <td>{{emp.3}}</td>
         <td>{{emp.4}}</td>
@@ -178,7 +177,7 @@
         <td>{{emp.7}}</td>
         <td>{{emp.8}}</td>
         <td>
-          <a href="">View</a> ||
+          <a href="{%url 'App_Employee:details' emp.0%}">View</a> ||
           <a href="">Edit</a> ||
           <a href="">Delete </a>
         </td>
@@ -189,4 +188,15 @@
   </table>
 </div>
 </section>
+<script>
+var pageno=document.getElementById("PageNo")
+  function ChangePageNoValue(val){
+    pageno.value=val;
+    filterbuttonAction();
+  }
+  document.getElementById("filterBtn").addEventListener("click", filterbuttonAction);
+  function filterbuttonAction() {
+    document.getElementById("filterForm").submit();
+  };
+</script>  
 {% endblock main %}
