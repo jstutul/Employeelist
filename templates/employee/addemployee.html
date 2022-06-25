@@ -1,0 +1,169 @@
+{% extends 'base.html' %} {% block navbar %} {% include 'navbar.html' %} {%endblock navbar %} 
+{% block main %}
+
+<section class="container text-left">
+
+    <div class="container mt-4">  
+        
+        <form class="card shadow-lg p-4" style="max-width: 600px;margin:0 auto;" method="post" action="" id="addEmployeeForm"> {% csrf_token %}
+            {%for message in messages %} {%if "data_insert" in message.tags %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message}} </strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endif %} {% endfor %} 
+            <h3 class="border-bottom py-2">Add New Employee </h3>
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control"  name="FormFirstName" value="" required />
+                    <div class="error" id="firstname"> </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="FormLastName" value="" required />
+                    <div class="error" id="lastname"></div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control"  name="FormEmail" value="" required />
+                    <div class="error" id="email"></div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control"  name="FormPhone" value="" placeholder="01763389144" required />
+                    <div class="error" id="phone"></div>
+                </div>
+                    
+                <div class="col-md-6">
+                    <label class="form-label">City</label>
+                    <select class="form-control" name="FormCity"  required>
+                        <option selected="">Select</option>
+                        <option value="Dhaka">Dhaka</option>
+                        <option value="Faridpur">Faridpur</option>
+                        <option value="Jamalpur">Jamalpur</option>
+                        <option value="Kishoreganj">Kishoreganj</option>
+                        <option value="Manikganj">Manikganj</option>
+                        <option value="Maradipur">Maradipur</option>
+                        <option value="Munshiganj">Munshiganj</option>
+                        <option value="Mymensingh">Mymensingh</option>
+                        <option value="Narayanganj">Narayanganj</option>
+                        <option value="Narsingdi">Narsingdi</option>
+                        <option value="Netrokona">Netrokona</option>
+                        <option value="Noakhali">Noakhali</option>
+                        <option value="Rajbari">Rajbari</option>
+                        <option value="Shariatpur">Shariatpur</option>
+                        <option value="Sherpur">Sherpur</option>
+                        <option value="Tangail">Tangail</option>
+                        <option value="Tongi">Tongi</option>
+                        <option value="Bagherhat">Bagherhat</option>
+                        <option value="Chuadanga">Chuadanga</option>
+                        <option value="Jessore">Jessore</option>
+                        <option value="Jhenaidaha">Jhenaidaha</option>
+                        <option value="Kushtia">Kushtia</option>
+                        <option value="Magura">Magura</option>
+                        <option value="Meherpur">Meherpur</option>
+                        <option value="Narail">Narail</option>
+                        <option value="Shatkhira">Shatkhira</option>
+                        <option value="Bogra">Bogra</option>
+                        <option value="Joypurhat">Joypurhat</option>
+                        <option value="Naogaon">Naogaon</option>
+                        <option value="Natore">Natore</option>
+                        <option value="Nawabganj">Nawabganj</option>
+                        <option value="Pabna">Pabna</option>
+                        <option value="Rajshahi">Rajshahi</option>
+                        <option value="Sirajganj">Sirajganj</option>
+                        <option value="Dinajpur">Dinajpur</option>
+                        <option value="Gaibandha">Gaibandha</option>
+                        <option value="Kurigram">Kurigram</option>
+                        <option value="Lalmonirhat">Lalmonirhat</option>
+                        <option value="Nilphamari">Nilphamari</option>
+                        <option value="Panchagarh">Panchagarh</option>
+                        <option value="Rangpur">Rangpur</option>
+                        <option value="Thakurgaon">Thakurgaon</option>
+                        <option value="Habiganj">Habiganj</option>
+                        <option value="Maulvibazar">Maulvibazar</option>
+                        <option value="Sunamganj">Sunamganj</option>
+                        <option value="Sylhet">Sylhet</option>
+                        <option value="Bandarban">Bandarban</option>
+                        <option value="Brahmanbaria">Brahmanbaria</option>
+                        <option value="Chandpur">Chandpur</option>
+                        <option value="Comilla">Comilla</option>
+                        <option value="Cox's Bazar">Cox's Bazar</option>
+                        <option value="Feni">Feni</option>
+                        <option value="Khagrachhari">Khagrachhari</option>
+                        <option value="Lakshmipur">Lakshmipur</option>
+                        <option value="Noakhali">Noakhali</option>
+                        <option value="Rangamati">Rangamati</option>
+                        <option value="Barguna">Barguna</option>
+                        <option value="Barisal">Barisal</option>
+                        <option value="Bhola">Bhola</option>
+                        <option value="Jhalokati">Jhalokati</option>
+                        <option value="Patuakhali">Patuakhali</option>
+                        <option value="Pirojpur">Pirojpur</option>
+                    </select>
+                    <div class="error" id="city"></div>
+                </div>
+                    
+                <div class="col-md-6">
+                    <label class="form-label">Date of Bath</label>
+                    <input type="date" class="form-control"  name="FormDob" data-date-format="dd/mm/yyyy" value="" checked />
+                    <div class="error" id="dob"> </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Select Gender</label><br />
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineRadio1" value="male" name="FormGender" />
+                        <label class="form-check-label" for="inlineRadio1">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineRadio2" value="female" name="FormGender" required />
+                        <label class="form-check-label" for="inlineRadio2">Female</label>
+                    </div>
+                    <div class="error" id="gender"></div>
+                </div>
+            
+                <div class="col-md-6">
+                    <label class="form-label"> Skill</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" onchange="handleCheckbox(event)" name="Formskills" value="Web Designer"id="webdesigner" />
+                        <label class="form-check-label" for="flexCheckDefault"> Web Designer</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" onchange="handleCheckbox(event)" name="Formskills" value="Web Developer" id="backenddeveloper" />
+                        <label class="form-check-label" for="flexCheckChecked">Web Developer</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" onchange="handleCheckbox(event)" name="Formskills" value="Full Stack" id="fullstackdeveloper" />
+                        <label class="form-check-label" for="flexCheckChecked">Full Stack Developer</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"  onchange="handleCheckbox(event)" name="Formskills" value="Graphics Designer" id="Graphics_designer" />
+                        <label class="form-check-label" for="flexCheckChecked">Graphics Designer</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" onchange="handleCheckbox(event)" name="Formskills" value="App Developer" id="appdeveloper" />
+                        <label class="form-check-label" for="flexCheckChecked">App Developer</label>
+                    </div>
+                    <div class="error" id="skill"></div>
+                </div>
+                <div class="col-12 mt-3">
+                    <button type="submit" id="registerbtn" class="btn btn-primary">Add Employee</button>
+                </div>
+                
+            </div>
+        </form>
+        </div>
+        
+
+{% endblock main %}

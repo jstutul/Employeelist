@@ -1,7 +1,19 @@
 {% extends 'base.html' %} {% block main %}
 <section>
-  <form>
+  <form method="post" action="{% url 'App_Employee:login'%}">
+    {% csrf_token %}
     <div class="loginForm">
+      {%for message in messages %} {%if "login_error" in message.tags %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message}} </strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endif %} {% endfor %}
       <div class="card shadow-lg p-4">
         <h3 class="login-title">Login Form</h3>
         <div class="form-floating mb-3">
@@ -9,7 +21,8 @@
             type="text"
             class="form-control"
             id="floatingInput"
-            placeholder="name@example.com"
+            name="username"
+            placeholder="Username"
           />
           <label for="floatingInput">Username</label>
         </div>
@@ -18,12 +31,15 @@
             type="password"
             class="form-control"
             id="floatingPassword"
+            name="password"
             placeholder="Password"
           />
           <label for="floatingPassword">Password</label>
         </div>
         <div class="my-2">
-          <a class="text-danger" href="">Forget Password</a>
+          <a class="text-danger" href="{% url 'App_Employee:signup'%}"
+            >Signup Now</a
+          >
         </div>
         <div class="my-2">
           <button type="submit" class="btn btn-primary">Login</button>

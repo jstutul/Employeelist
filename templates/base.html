@@ -12,6 +12,8 @@
     {% block navbar%}{% endblock navbar%}
     <div class="container">{% block main %} {% endblock main %}</div>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+    <!-- <script src="{% static 'js/validation.js'%}"></script> -->
   </body>
 </html>
