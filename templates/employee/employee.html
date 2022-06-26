@@ -5,6 +5,17 @@
 {% block main %}
 <section>
   <form id="filterForm" class="my-2" method="post">{% csrf_token %}
+    {%for message in messages %} {%if "data_delete" in message.tags %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message}} </strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endif %} {% endfor %} 
     <div class="bg-success py-2 rounded-top">
       <h4 class="text-white mx-2">Filter Zone</h4>
     </div>
@@ -15,11 +26,17 @@
             type="text"
             class="form-control"
             placeholder="Search With Name"
+            name="Formname"
+            value="{{name}}"
           />
         </div>
         <div class="col-md-3 my-2">
           <select class="form-select" name="FormCity">
+            {% if city != "" %}
+            <option selected="" value="{{city}}">{{city}}</option>
+            {% else %}
             <option selected=""> Select</option>
+            {% endif %}
             <option value="Dhaka">Dhaka</option>
             <option value="Faridpur">Faridpur</option>
             <option value="Jamalpur">Jamalpur</option>
@@ -85,27 +102,35 @@
           </select>
         </div>
         <div class="col-md-2 my-2">
-          <select class="form-select">
+          <select class="form-select" name="FormMinAge">
+            {% if minage != "" %}
+            <option selected="" value="{{minage}}">{{minage}}</option>
+            {% else %}
             <option selected>Min Age</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            {% endif %}
+            {% for ma in minagerange%}
+            <option value="{{ma}}">{{ma}}</option>
+            {% endfor %}
           </select>
         </div>
         <div class="col-md-2 my-2">
-          <select class="form-select">
+          <select class="form-select" name="FormMaxAge">
+             {% if maxage != "" %}
+            <option selected="" value="{{maxage}}">{{maxage}}</option>
+            {% else %}
             <option selected>Max Age</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            {% endif %}
+            {% for ma in maxagerange%}
+            <option value="{{ma}}">{{ma}}</option>
+            {% endfor %}
           </select>
         </div>
         <div class="col-md-4">
           <div class="radio-inline mr-2">
-              <input type="radio" name="optradio" checked>&nbsp;Male
+              <input type="radio" value="male" name="FormGender">&nbsp;Male
           </label>
           <label class="radio-inline mx-2">
-            <input type="radio" name="optradio">&nbsp;Female
+            <input type="radio" value="female" name="FormGender">&nbsp;Female
           </label>
           </div>
       </div>
@@ -151,7 +176,7 @@
 <section>
   <div class="table-responsive">
   <table class="table table-striped table-hover">
-    <h6>Total {{all_employees.len}}</h6>
+    <h6>Total {{all_employees.0.9}}</h6>
     <thead>
       <tr>
         <th scope="col">SL</th>
@@ -177,9 +202,9 @@
         <td>{{emp.7}}</td>
         <td>{{emp.8}}</td>
         <td>
-          <a href="{%url 'App_Employee:details' emp.0%}">View</a> ||
-          <a href="">Edit</a> ||
-          <a href="">Delete </a>
+          <a href="{% url 'App_Employee:details' emp.0%}">View</a> ||
+          <a href="{% url 'App_Employee:editemployee' emp.0 %}">Edit</a> ||
+          <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="changemodalvalue({{emp.0}})">Delete </a>
         </td>
       </tr>
       {% endfor %}
@@ -198,5 +223,30 @@ var pageno=document.getElementById("PageNo")
   function filterbuttonAction() {
     document.getElementById("filterForm").submit();
   };
+  function changemodalvalue(val){
+    var x=document.getElementById("emp_id");
+    x.value=val;
+  }
 </script>  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      Are you want to delete this Employee?
+      </div>
+      <form method="post" action="{% url 'App_Employee:deleteemployee'%}">{% csrf_token %}
+      <div class="modal-footer">
+        <input type="hidden" name="emp_id" id="emp_id" value=""/>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" id="deleteBtn" class="btn btn-primary">Delete</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock main %}

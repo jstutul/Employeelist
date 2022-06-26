@@ -5,8 +5,8 @@
 
     <div class="container mt-4">  
         
-        <form class="card shadow-lg p-4" style="max-width: 600px;margin:0 auto;" method="post" action="" id="addEmployeeForm"> {% csrf_token %}
-            {%for message in messages %} {%if "data_insert" in message.tags %}
+        <form class="card shadow-lg p-4" style="max-width: 600px;margin:0 auto;" method="post" action="" id="editEmployeeForm"> {% csrf_token %}
+            {%for message in messages %} {%if "data_update" in message.tags %}
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>{{message}} </strong>
         <button
@@ -17,37 +17,37 @@
         ></button>
       </div>
       {% endif %} {% endfor %} 
-            <h3 class="border-bottom py-2">Add New Employee </h3>
+            <h3 class="border-bottom py-2">Update Employee </h3>
             <div class="row g-4">
 
                 <div class="col-md-6">
                     <label class="form-label">First Name</label>
-                    <input type="text" class="form-control"  name="FormFirstName" id="FormFirstName" value="" />
+                    <input type="text" class="form-control"  name="FormFirstName" id="FormFirstName" value="{{single_employee.0.1}}" />
                     <div class="error" id="firstname"> </div>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label">Last Name</label>
-                    <input type="text" class="form-control" name="FormLastName" id="FormLastName" value=""  />
+                    <input type="text" class="form-control" name="FormLastName" id="FormLastName" value="{{single_employee.0.2}}" />
                     <div class="error" id="lastname"></div>
                 </div>
 
                 <div class="col-md-12">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control"  name="FormEmail" id="FormEmail" value=""  />
+                    <input type="email" class="form-control"  name="FormEmail" id="FormEmail" value="{{single_employee.0.3}}" />
                     <div class="error" id="email"></div>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label">Phone</label>
-                    <input type="text" class="form-control"  name="FormPhone" id="FormPhone" value="" placeholder="01763389144"/>
+                    <input type="text" class="form-control"  name="FormPhone" id="FormPhone" value="{{single_employee.0.4}}" placeholder="01763389144" />
                     <div class="error" id="phone"></div>
                 </div>
                     
                 <div class="col-md-6">
                     <label class="form-label">City</label>
-                    <select class="form-control" name="FormCity" id="FormCity">
-                        <option selected="">Select</option>
+                    <select class="form-control" name="FormCity"  id="FormCity">
+                        <option selected="">{{single_employee.0.8 }}</option>
                         <option value="Dhaka">Dhaka</option>
                         <option value="Faridpur">Faridpur</option>
                         <option value="Jamalpur">Jamalpur</option>
@@ -116,49 +116,81 @@
                     
                 <div class="col-md-6">
                     <label class="form-label">Date of Bath</label>
-                    <input type="date" class="form-control"  name="FormDob" id="FormDob" data-date-format="dd/mm/yyyy" value="" />
+                    <input type="date" class="form-control"  name="FormDob" id="FormDob" data-date-format="dd/mm/yyyy" value="{{single_employee.0.7 }}" />
                     <div class="error" id="dob"> </div>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label">Select Gender</label><br />
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="inlineRadio1" value="male" name="FormGender" />
+                        <input class="form-check-input" type="radio" id="inlineRadio1" value="male"
+                        {% if single_employee.0.5 == "male" %} checked {% endif %}
+                        name="FormGender" />
                         <label class="form-check-label" for="inlineRadio1">Male</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="inlineRadio2" value="female" name="FormGender"  />
+                        <input class="form-check-input" type="radio" id="inlineRadio2" value="female" {% if single_employee.0.5 == "female" %} checked {% endif %} name="FormGender" />
                         <label class="form-check-label" for="inlineRadio2">Female</label>
                     </div>
                     <div class="error" id="gender"></div>
                 </div>
             
-                <div class="col-md-6" id="skillsZone">
+                <div class="col-md-6">
                     <label class="form-label"> Skill</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"  name="Formskills" value="Web Designer"id="webdesigner" />
+                        <input class="form-check-input" type="checkbox"name="Formskills" value="Web Designer"id="webdesigner"
+                        {% for s in single_employee %}
+                            {% if s.9 == "Web Designer" %}  
+                                checked
+                            {% endif %}
+                        {% endfor %}
+                        />
                         <label class="form-check-label" for="flexCheckDefault"> Web Designer</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"  name="Formskills" value="Web Developer" id="backenddeveloper" />
+                        <input class="form-check-input" type="checkbox"name="Formskills" value="Web Developer" id="backenddeveloper"
+                        {% for s in single_employee %}
+                            {% if s.9 == "Web Developer" %}  
+                                checked
+                            {% endif %}
+                        {% endfor %}
+                         />
                         <label class="form-check-label" for="flexCheckChecked">Web Developer</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"  name="Formskills" value="Full Stack" id="fullstackdeveloper" />
+                        <input class="form-check-input" type="checkbox"name="Formskills" value="Full Stack" id="fullstackdeveloper"
+                        {% for s in single_employee %}
+                            {% if s.9 == "Full Stack" %}  
+                                checked
+                            {% endif %}
+                        {% endfor %}
+                         />
                         <label class="form-check-label" for="flexCheckChecked">Full Stack Developer</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"   name="Formskills" value="Graphics Designer" id="Graphics_designer" />
+                        <input class="form-check-input" type="checkbox" name="Formskills" value="Graphics Designer" id="Graphics_designer"
+                        {% for s in single_employee %}
+                            {% if s.9 == "Graphics Designer" %}  
+                                checked
+                            {% endif %}
+                        {% endfor %}
+                        />
                         <label class="form-check-label" for="flexCheckChecked">Graphics Designer</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"  name="Formskills" value="App Developer" id="appdeveloper" />
+                        <input class="form-check-input" type="checkbox"name="Formskills" value="App Developer" id="appdeveloper" 
+                        {% for s in single_employee %}
+                            {% if s.9 == "App Developer" %}  
+                                checked
+                            {% endif %}
+                        {% endfor %}
+                        />
                         <label class="form-check-label" for="flexCheckChecked">App Developer</label>
                     </div>
                     <div class="error" id="skill"></div>
                 </div>
                 <div class="col-12 mt-3">
-                    <button type="submit" id="registerbtn" class="btn btn-primary">Add Employee</button>
+                    <button type="submit" id="registerbtn" class="btn btn-primary">Update Employee</button>
                 </div>
                 
             </div>

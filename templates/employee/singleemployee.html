@@ -10,35 +10,41 @@
       <table class="table table-bordered w-50">
         <tr>
           <td>Full Name</td>
-          <td>Full Name</td>
+          <td>{{single_employee.0.1}} {{single_employee.0.2}}</td>
         </tr>
         <tr>
-          <td>Full Name</td>
-          <td>Full Name</td>
+          <td>Email</td>
+          <td>{{single_employee.0.3}}</td>
         </tr>
         <tr>
-          <td>Full Name</td>
-          <td>Full Name</td>
+          <td>Phone</td>
+          <td>{{single_employee.0.4}}</td>
         </tr>
         <tr>
-          <td>Full Name</td>
-          <td>Full Name</td>
+          <td>Gender</td>
+          <td>{{single_employee.0.5}}</td>
         </tr>
         <tr>
-          <td>Full Name</td>
-          <td>Full Name</td>
+          <td>Dath of Birth</td>
+          <td>{{single_employee.0.7}}</td>
         </tr>
         <tr>
-          <td>Full Name</td>
-          <td>Full Name</td>
+          <td>Age</td>
+          <td>{{single_employee.0.6}}</td>
         </tr>
         <tr>
-          <td>Full Name</td>
-          <td>Full Name</td>
+          <td>City</td>
+          <td>{{single_employee.0.8}}</td>
         </tr>
         <tr>
-          <td>Full Name</td>
-          <td>Full Name</td>
+          <td>Skills</td>
+          <td>
+            <ul>
+              {% for s in single_employee %}
+                  <li>{{s.9}}</li>
+              {% endfor %}
+            </ul>
+          </td>
         </tr>
       </table>
     </div>

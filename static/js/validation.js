@@ -2,21 +2,41 @@
 let skills = {};
 let is_confirm = false;
 let is_firstname = is_lastname = is_email = is_password = is_city = is_state = is_dob = is_skill = is_gender = is_phone = false;
-var AddEmployeeForm = document.getElementById("addEmployeeForm");
+let AddEmployeeForm = document.getElementById("addEmployeeForm");
+let editEmployeeForm = document.getElementById("editEmployeeForm");
 
-// Add Employee Form Validation
-    AddEmployeeForm.addEventListener("submit", function (event) {
+if(editEmployeeForm){
+    Action(editEmployeeForm);
+}
+if(AddEmployeeForm){
+    Action(AddEmployeeForm);
+}
+
+function Action(form){
+
+    form.addEventListener("submit", function (event) {
+        let isValid=0;
+        let firstname=document.getElementById("FormFirstName").value;
+        let lastname=document.getElementById("FormLastName").value;
+        let email=document.getElementById("FormEmail").value;
+        let city=document.getElementById("FormCity").value;
+        let phone=document.getElementById("FormPhone").value;
+        let dob=document.getElementById("FormDob").value;
+        let gender1=document.getElementById("inlineRadio1");
+        let gender2=document.getElementById("inlineRadio2");
+        let skills = document.getElementById("skillsZone");
+        var chks = document.querySelectorAll('input[type="checkbox"]')
 
         // Checking First Name
-        alert("");
-        if (registerData.firstname == "" || registerData.hasOwnProperty("firstname") == false) {
+        if (firstname == "" || firstname==null) {
+            isValid++;
             printError("firstname", "Please enter your name");
         } else {
             var regex = /^[a-zA-Z\s]+$/;
-            if (regex.test(registerData.firstname) === false) {
+            if (regex.test(firstname) === false) {
                 is_firstname = false;
+                isValid++;
                 printError("firstname", "Please enter a valid name");
-
             } else {
                 is_firstname = true;
                 printError("firstname", "");
@@ -25,12 +45,14 @@ var AddEmployeeForm = document.getElementById("addEmployeeForm");
 
         // Checking Last Name
 
-        if (registerData.lastname == "" || registerData.hasOwnProperty("lastname") == false) {
+        if (lastname == "" || lastname == null) {
             printError("lastname", "Please enter your name");
+            isValid++;
         } else {
             var regex = /^[a-zA-Z\s]+$/;
-            if (regex.test(registerData.lastname) === false) {
+            if (regex.test(lastname) === false) {
                 is_lastname = false;
+                isValid++;
                 printError("lastname", "Please enter a valid name");
 
             } else {
@@ -41,12 +63,14 @@ var AddEmployeeForm = document.getElementById("addEmployeeForm");
         }
 
         // Checking Email
-        if (registerData.email == "" || registerData.hasOwnProperty("email") == false) {
+        if (email == "" || email == null) {
+            isValid++;
             printError("email", "Please enter your email");
         } else {
             var regex = /^\S+@\S+\.\S+$/;
-            if (regex.test(registerData.email) === false) {
+            if (regex.test(email) === false) {
                 is_email = false;
+                isValid++;
                 printError("email", "Please enter a valid email");
 
             } else {
@@ -59,12 +83,14 @@ var AddEmployeeForm = document.getElementById("addEmployeeForm");
        
 
         // Checking City Name
-        if (registerData.city == "" || registerData.hasOwnProperty("city") == false) {
+        if (city == "" || city == null) {
+            isValid++;
             printError("city", "Please select a city");
         } else {
 
-            if (registerData.city === "Select") {
+            if (city === "Select") {
                 is_city = false;
+                isValid++;
                 printError("city", "Please select a city");
 
             } else {
@@ -74,12 +100,14 @@ var AddEmployeeForm = document.getElementById("addEmployeeForm");
         }
 
         // Checking Phone
-        if (registerData.phone == "" || registerData.hasOwnProperty("phone") == false) {
+        if (phone == "" || phone == null) {
+            isValid++;
             printError("phone", "Please enter your phone no");
         } else {
             var regex = /^\d{11}$/;;
-            if (regex.test(registerData.phone) === false) {
+            if (regex.test(phone) === false) {
                 is_phone = false;
+                isValid++;
                 printError("phone", "Phone no must be 11 digit");
             } else {
                 is_phone = true;
@@ -87,9 +115,10 @@ var AddEmployeeForm = document.getElementById("addEmployeeForm");
             }
         }
         // Checking Date of Birth
-        if (registerData.dob == "" || registerData.hasOwnProperty("dob") == false) {
+        if (dob == "" || dob == null) {
             is_dob = false;
-            printError("dob", "Please enter your date of birth");
+            isValid++;
+            printError("dob", "Please select your date of birth");
 
         } else {
             is_dob = true;
@@ -104,6 +133,7 @@ var AddEmployeeForm = document.getElementById("addEmployeeForm");
             const check = Object.keys(registerData.skills).length;
             if (check === 0) {
                 is_skill = false;
+                isValid++;
                 printError("skill", "Select One Skill");
             }
             else {
@@ -114,59 +144,37 @@ var AddEmployeeForm = document.getElementById("addEmployeeForm");
 
         }
         //Checking Gender
-        if (registerData.gender == "" || registerData.hasOwnProperty("gender") == false) {
+        if (gender1.checked ==false  && gender2.checked  == false) {
+            isValid++;
             printError("gender", "Please select your gender");
         } else {
-            if (registerData.skill === "Select") {
-                is_gender = false;
-                printError("gender", "Select your gender");
-
-            } else {
-                is_gender = true;
-                printError("gender", "");
-
-            }
-
+            is_gender = true;
+            printError("gender", "");
         }
-        console.log(is_lastname, is_firstname, is_email, is_city, is_phone, is_gender, is_skill);
-        if (is_firstname === true && is_lastname === true && is_email === true && is_city === true && is_phone === true && is_gender === true && is_skill === true) {
+        let skill_error=0;
+        for (i = 0; i < chks.length; i += 1) {
+           
+            if (chks[i].checked == true){
+                printError("skill", "");
+            }
+            else{
+                skill_error++;
+                printError("skill", "Select al least one Skill");
+            }
+        }
+        if(skill_error>=5){
+            isValid++;
+        }
+       
+        console.log(isValid);
+        if (isValid==0) {
             return true;
         }
+
         event.preventDefault();
-        console.log(registerData);
-
-
     });
-
-
-
-const handleOnBlur = (e) => {
-    const field = e.target.name;
-    const value = e.target.value;
-    const NewData=registerData;
-    NewData[field]=value;
-    registerData = NewData;
-    console.log(registerData);
 }
 
-const handleCheckbox = (e) => {
-    const field = e.target;
-    const value = e.target.value;
-    const newData = skills;
-    if (field.checked) {
-        newData[field.id] = value;
-        skills = newData;
-    }
-    else {
-
-        delete skills[field.id];
-    }
-
-    const New = registerData;
-    New["skills"] = skills;
-    registerData = New;
-    console.log(registerData);
-}
 function printError(elemId, hintMsg) {
     document.getElementById(elemId).innerHTML = hintMsg;
 }
