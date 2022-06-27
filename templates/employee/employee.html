@@ -125,7 +125,26 @@
             {% endfor %}
           </select>
         </div>
+        <div class="col-md-2 my-2">
+          <input
+            type="date"
+            class="form-control"
+            name="FormMinDate"
+            value="{{mindate}}"
+          />
+          
+        </div>
+         <div class="col-md-2 my-2">
+          <input
+            type="date"
+            class="form-control"
+            name="FormMaxDate"
+            value="{{maxdate}}"
+          />
+          
+        </div>
         <div class="col-md-4">
+          <div class="my-3"></div>
           <div class="radio-inline mr-2">
               <input type="radio" value="male" name="FormGender">&nbsp;Male
           </label>

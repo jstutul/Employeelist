@@ -12,13 +12,15 @@ from django.contrib.auth.decorators import login_required
 def Employees(request):
     ps = 4
     pn = 1
-    name=city=minage=maxage=gender=""
+    name=city=minage=maxage=gender=mindate=maxdate=""
     if request.method == "POST":
         name=request.POST.get('Formname',"")
         city=request.POST.get('FormCity',"")
         minage=request.POST.get('FormMinAge',"")
         maxage=request.POST.get('FormMaxAge',"")
         gender=request.POST.get('FormGender',"")
+        mindate=request.POST.get('FormMinDate',"")
+        maxdate=request.POST.get('FormMaxDate',"")
         
         qex = int(request.POST["PageNo"])
         if qex != "":
@@ -41,7 +43,14 @@ def Employees(request):
         if SqlQuery !="":
             SqlQuery=SqlQuery + " AND "
         SqlQuery=SqlQuery + "  Age<='" + maxage + "' "    
-
+    if mindate!="":
+        if SqlQuery !="":
+            SqlQuery=SqlQuery + " AND "
+        SqlQuery=SqlQuery + "  Dob>='" + mindate + "' "  
+    if maxdate!="":
+        if SqlQuery !="":
+            SqlQuery=SqlQuery + " AND "
+        SqlQuery=SqlQuery + "  Dob<='" + maxdate + "' "  
     if gender!="":
         if SqlQuery !="":
             SqlQuery=SqlQuery+" AND "
@@ -75,6 +84,8 @@ def Employees(request):
         'city':city,
         'minage':minage,
         'maxage':maxage,
+        'mindate':mindate,
+        'maxdate':maxdate,
         'minagerange':range(18,40),
         'maxagerange':range(30,80),
     }
